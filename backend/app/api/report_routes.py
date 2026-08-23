@@ -1,3 +1,5 @@
+import json
+
 from fastapi import APIRouter, Depends
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
@@ -5,7 +7,7 @@ from sqlalchemy.orm import Session
 from app.database.deps import get_db
 from app.dependencies.auth_dependency import get_current_user
 from app.models.user import User
-
+from app.models.activity import Activity
 from app.utils.pdf_generator import generate_pdf_report
 
 router = APIRouter()
@@ -17,30 +19,49 @@ def download_report(
     current_user: User = Depends(get_current_user),
 ):
 
-    career_analysis = f"""
-Career Goal:
-{current_user.career_goal}
+    # Get user's saved activity/results
+    activity = (
+        db.query(Activity)
+        .filter(Activity.user_id == current_user.id)
+        .first()
+    )
 
-Education:
-{current_user.education}
+    # Default values
+    career_analysis = {}
+    ats_score = {}
+    job_match = {}
 
-Experience:
-{current_user.experience}
+    # Get saved AI results
+    if activity:
 
-Skills:
-{current_user.skills}
+        # Career Analysis
+        if activity.career_analysis:
+            try:
+                career_analysis = json.loads(
+                    activity.career_analysis
+                )
+            except Exception:
+                career_analysis = {}
 
-GitHub:
-{current_user.github}
+        # ATS Score
+        if activity.ats_score:
+            try:
+                ats_score = json.loads(
+                    activity.ats_score
+                )
+            except Exception:
+                ats_score = {}
 
-LinkedIn:
-{current_user.linkedin}
-"""
+        # Job Match
+        if activity.job_match:
+            try:
+                job_match = json.loads(
+                    activity.job_match
+                )
+            except Exception:
+                job_match = {}
 
-    ats_score = "Generate ATS Score to view your latest score."
-
-    job_match = "Generate Job Match to view your latest analysis."
-
+    # Generate PDF
     pdf_path = generate_pdf_report(
         filename=f"{current_user.name}_AI_Report.pdf",
         user_name=current_user.name,

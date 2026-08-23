@@ -11,6 +11,9 @@ import JobMatch from "./pages/JobMatch";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
+import History from "./pages/History";
+import CareerRoadmap from "./pages/CareerRoadmap";
+import InterviewPrep from "./pages/InterviewPrep";
 
 
 function App() {
@@ -28,7 +31,8 @@ function App() {
           element={
             <ProtectedRoute>
               <Layout>
-                <Dashboard />
+                <Dashboard
+                 />
 
 
 
@@ -93,6 +97,38 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+  path="/history"
+  element={
+    <ProtectedRoute>
+      <Layout>
+        <History />
+      </Layout>
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/career-roadmap"
+  element={
+    <ProtectedRoute>
+      <Layout>
+        <CareerRoadmap />
+      </Layout>
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/interview-prep"
+  element={
+    <ProtectedRoute>
+      <Layout>
+        <InterviewPrep />
+      </Layout>
+    </ProtectedRoute>
+  }
+/>
 
       </Routes>
     </BrowserRouter>
