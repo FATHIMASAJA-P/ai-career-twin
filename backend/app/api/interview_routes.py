@@ -13,6 +13,7 @@ from app.services.ai_service import generate_interview_questions
 from app.services.ai_service import (
     generate_interview_questions,
     generate_interview_answer,
+    evaluate_interview_answer,
 )
 
 router = APIRouter()
@@ -121,6 +122,61 @@ Resume:
     result = generate_interview_answer(
         profile,
         data.question
+    )
+
+    return result
+
+class MockInterviewRequest(BaseModel):
+    question: str
+    user_answer: str
+
+
+@router.post("/mock-interview/evaluate")
+def evaluate_mock_interview(
+    data: MockInterviewRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    # Get latest resume
+    resume = (
+        db.query(Resume)
+        .filter(Resume.user_id == current_user.id)
+        .order_by(Resume.id.desc())
+        .first()
+    )
+
+    resume_text = (
+        resume.extracted_text
+        if resume
+        else "No resume uploaded."
+    )
+
+    # Create candidate profile
+    profile = f"""
+Name:
+{current_user.name}
+
+Education:
+{current_user.education}
+
+Experience:
+{current_user.experience}
+
+Skills:
+{current_user.skills}
+
+Career Goal:
+{current_user.career_goal}
+
+Resume:
+{resume_text}
+"""
+
+    # Evaluate candidate's answer
+    result = evaluate_interview_answer(
+        profile=profile,
+        question=data.question,
+        user_answer=data.user_answer,
     )
 
     return result

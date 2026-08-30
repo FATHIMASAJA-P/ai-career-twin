@@ -34,15 +34,18 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-      <div className="w-full max-w-md bg-slate-800 rounded-2xl shadow-xl p-8">
+    <div className="auth-scene">
+      <div className="auth-orbit auth-orbit--one" />
+      <div className="auth-orbit auth-orbit--two" />
+      <div className="auth-card">
+        <div className="auth-brand"><span className="brand-mark__symbol">↗</span> AI Career<span>Twin</span></div>
 
-        <h1 className="text-4xl font-bold text-cyan-400 text-center mb-2">
-          AI Career Twin
+          <h1 className="text-4xl font-bold text-cyan-400 text-center mb-2">
+          Welcome back
         </h1>
 
-        <p className="text-gray-400 text-center mb-8">
-          Sign in to continue
+          <p className="text-gray-400 text-center mb-8">
+          Your next opportunity starts here.
         </p>
 
         <form onSubmit={handleLogin} className="space-y-5">
@@ -73,6 +76,14 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full p-3 rounded-lg bg-slate-700 text-white border border-slate-600 focus:outline-none focus:border-cyan-400"
             />
+            <div className="text-right mt-2">
+  <Link
+    to="/forgot-password"
+    className="text-cyan-400 hover:text-cyan-300 text-sm"
+  >
+    Forgot Password?
+  </Link>
+</div>
           </div>
 
           <button

@@ -52,9 +52,12 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-cyan-900 flex items-center justify-center p-6">
+    <div className="auth-scene">
+      <div className="auth-orbit auth-orbit--one" />
+      <div className="auth-orbit auth-orbit--two" />
 
-      <div className="w-full max-w-md bg-slate-800/90 backdrop-blur-lg rounded-3xl shadow-2xl p-8 border border-slate-700">
+      <div className="auth-card">
+        <div className="auth-brand"><span className="brand-mark__symbol">↗</span> AI Career<span>Twin</span></div>
 
         <div className="text-center mb-8">
           <div className="w-20 h-20 mx-auto rounded-full bg-cyan-500 flex items-center justify-center">

@@ -56,33 +56,33 @@ function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 py-10 px-4">
-      <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
+    <div className="profile-page min-h-screen py-10 px-4">
+      <div className="profile-card max-w-5xl mx-auto rounded-3xl shadow-2xl overflow-hidden">
 
         {/* Header */}
-        <div className="h-40 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500"></div>
+        <div className="profile-cover h-40"></div>
 
         {/* Avatar */}
         <div className="flex flex-col items-center -mt-16">
-          <div className="w-32 h-32 rounded-full bg-white shadow-xl border-4 border-white flex items-center justify-center text-5xl font-bold text-indigo-600">
+          <div className="profile-avatar w-32 h-32 rounded-full shadow-xl border-4 flex items-center justify-center text-5xl font-bold">
             {profile.name?.charAt(0).toUpperCase()}
           </div>
 
-          <h1 className="text-3xl font-bold mt-4">
+          <h1 className="profile-name text-3xl font-bold mt-4">
             {profile.name}
           </h1>
 
-          <p className="text-gray-500">
+          <p className="profile-email">
             {profile.email}
           </p>
         </div>
 
         {/* Form */}
-        <div className="grid md:grid-cols-2 gap-8 p-10">
+        <div className="profile-form grid md:grid-cols-2 gap-8 p-10">
 
           {/* Name */}
           <div>
-            <label className="font-semibold text-gray-700">
+            <label className="font-semibold">
               Name
             </label>
 
@@ -90,13 +90,13 @@ function Profile() {
               type="text"
               value={profile.name}
               disabled
-              className="mt-2 w-full bg-gray-200 p-3 rounded-xl cursor-not-allowed"
+              className="profile-input mt-2 w-full p-3 rounded-xl cursor-not-allowed"
             />
           </div>
 
           {/* Email */}
           <div>
-            <label className="font-semibold text-gray-700">
+            <label className="font-semibold">
               Email
             </label>
 
@@ -104,13 +104,13 @@ function Profile() {
               type="email"
               value={profile.email}
               disabled
-              className="mt-2 w-full bg-gray-200 p-3 rounded-xl cursor-not-allowed"
+              className="profile-input mt-2 w-full p-3 rounded-xl cursor-not-allowed"
             />
           </div>
 
           {/* Career Goal */}
           <div>
-            <label className="font-semibold text-gray-700">
+            <label className="font-semibold">
               Career Goal
             </label>
 
@@ -123,13 +123,13 @@ function Profile() {
                   career_goal: e.target.value,
                 })
               }
-              className="mt-2 w-full bg-gray-100 p-3 rounded-xl border focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="profile-input mt-2 w-full p-3 rounded-xl border outline-none"
             />
           </div>
 
           {/* Education */}
           <div>
-            <label className="font-semibold text-gray-700">
+            <label className="font-semibold">
               Education
             </label>
 
@@ -142,13 +142,13 @@ function Profile() {
                   education: e.target.value,
                 })
               }
-              className="mt-2 w-full bg-gray-100 p-3 rounded-xl border focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="profile-input mt-2 w-full p-3 rounded-xl border outline-none"
             />
           </div>
 
           {/* Experience */}
           <div>
-            <label className="font-semibold text-gray-700">
+            <label className="font-semibold">
               Experience
             </label>
 
@@ -161,13 +161,13 @@ function Profile() {
                   experience: e.target.value,
                 })
               }
-              className="mt-2 w-full bg-gray-100 p-3 rounded-xl border focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="profile-input mt-2 w-full p-3 rounded-xl border outline-none"
             />
           </div>
 
           {/* Skills */}
           <div>
-            <label className="font-semibold text-gray-700">
+            <label className="font-semibold">
               Skills
             </label>
 
@@ -180,13 +180,13 @@ function Profile() {
                   skills: e.target.value,
                 })
               }
-              className="mt-2 w-full bg-gray-100 p-3 rounded-xl border focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="profile-input mt-2 w-full p-3 rounded-xl border outline-none"
             />
           </div>
 
           {/* GitHub */}
           <div>
-            <label className="font-semibold text-gray-700">
+            <label className="font-semibold">
               GitHub
             </label>
 
@@ -199,13 +199,13 @@ function Profile() {
                   github: e.target.value,
                 })
               }
-              className="mt-2 w-full bg-gray-100 p-3 rounded-xl border focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="profile-input mt-2 w-full p-3 rounded-xl border outline-none"
             />
           </div>
 
           {/* LinkedIn */}
           <div>
-            <label className="font-semibold text-gray-700">
+            <label className="font-semibold">
               LinkedIn
             </label>
 
@@ -218,7 +218,7 @@ function Profile() {
                   linkedin: e.target.value,
                 })
               }
-              className="mt-2 w-full bg-gray-100 p-3 rounded-xl border focus:ring-2 focus:ring-indigo-500 outline-none"
+              className="profile-input mt-2 w-full p-3 rounded-xl border outline-none"
             />
           </div>
 
@@ -229,7 +229,7 @@ function Profile() {
           <button
             onClick={saveProfile}
             disabled={saving}
-            className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-10 py-3 rounded-xl font-semibold shadow-lg hover:scale-105 transition-all duration-300 disabled:opacity-50"
+            className="profile-save px-10 py-3 rounded-xl font-semibold shadow-lg transition-all duration-300 disabled:opacity-50"
           >
             {saving ? "Saving..." : "Save Changes"}
           </button>

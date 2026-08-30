@@ -352,3 +352,83 @@ Use exactly this format:
             "question": question,
             "answer": "Unable to generate an answer."
         }
+
+def evaluate_interview_answer(
+    profile: str,
+    question: str,
+    user_answer: str,
+):
+    prompt = f"""
+You are an expert technical interview coach.
+
+Candidate Profile:
+------------------------
+{profile}
+------------------------
+
+Interview Question:
+------------------------
+{question}
+------------------------
+
+Candidate's Answer:
+------------------------
+{user_answer}
+------------------------
+
+Evaluate the candidate's answer.
+
+Consider:
+- Technical correctness
+- Relevance
+- Clarity
+- Communication
+- Completeness
+- Whether the answer uses the candidate's actual experience
+
+Return ONLY valid JSON.
+
+Use exactly this format:
+
+{{
+    "score": 0,
+    "strengths": [],
+    "improvements": [],
+    "feedback": "",
+    "better_answer": ""
+}}
+
+Rules:
+- Score from 0 to 10.
+- Do not invent candidate experience.
+- Keep feedback practical and suitable for an entry-level candidate.
+- The better answer should be natural and easy to speak in an interview.
+"""
+
+    try:
+        response = client.models.generate_content(
+            model="gemini-3.1-flash-lite",
+            contents=prompt,
+        )
+
+        text = response.text.strip()
+
+        if text.startswith("```json"):
+            text = (
+                text.replace("```json", "")
+                .replace("```", "")
+                .strip()
+            )
+
+        return json.loads(text)
+
+    except Exception as e:
+        print("Gemini Error:", e)
+
+        return {
+            "score": 0,
+            "strengths": [],
+            "improvements": [],
+            "feedback": "Unable to evaluate the answer.",
+            "better_answer": "",
+        }

@@ -3,10 +3,10 @@ import Navbar from "./Navbar";
 
 function Layout({ children }) {
   return (
-    <>
+    <div className="app-scene">
       <Navbar />
-      <main>{children}</main>
-    </>
+      <main className="app-main">{children}</main>
+    </div>
   );
 }
 

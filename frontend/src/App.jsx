@@ -14,6 +14,9 @@ import Layout from "./components/Layout";
 import History from "./pages/History";
 import CareerRoadmap from "./pages/CareerRoadmap";
 import InterviewPrep from "./pages/InterviewPrep";
+import MockInterview from "./pages/MockInterview";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 
 function App() {
@@ -128,6 +131,24 @@ function App() {
       </Layout>
     </ProtectedRoute>
   }
+/>
+<Route
+  path="/mock-interview"
+  element={
+    <ProtectedRoute>
+      <Layout>
+        <MockInterview />
+      </Layout>
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/forgot-password"
+  element={<ForgotPassword />}
+/>
+<Route
+  path="/reset-password"
+  element={<ResetPassword />}
 />
 
       </Routes>

@@ -19,17 +19,39 @@ SessionLocal = sessionmaker(
 
 def add_missing_columns():
     inspector = inspect(engine)
+    table_names = inspector.get_table_names()
 
-    if "activities" in inspector.get_table_names():
+    missing_columns = []
+
+    if "activities" in table_names:
         activity_columns = {
             column["name"] for column in inspector.get_columns("activities")
         }
 
         if "career_roadmap" not in activity_columns:
-            with engine.begin() as connection:
-                connection.execute(
-                    text("ALTER TABLE activities ADD COLUMN career_roadmap TEXT")
-                )
+            missing_columns.append(
+                "ALTER TABLE activities ADD COLUMN career_roadmap TEXT"
+            )
+
+    if "users" in table_names:
+        user_columns = {
+            column["name"] for column in inspector.get_columns("users")
+        }
+
+        if "reset_token" not in user_columns:
+            missing_columns.append(
+                "ALTER TABLE users ADD COLUMN reset_token VARCHAR"
+            )
+
+        if "reset_token_expires" not in user_columns:
+            missing_columns.append(
+                "ALTER TABLE users ADD COLUMN reset_token_expires DATETIME"
+            )
+
+    if missing_columns:
+        with engine.begin() as connection:
+            for statement in missing_columns:
+                connection.execute(text(statement))
 
 
 # 👇 Add this function

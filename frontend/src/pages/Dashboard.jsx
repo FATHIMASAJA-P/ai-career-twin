@@ -109,7 +109,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 p-8">
+    <div className="dashboard-page min-h-screen p-8">
 
       <div className="max-w-7xl mx-auto">
 
@@ -542,6 +542,12 @@ function Dashboard() {
     description="Practice AI-generated interview questions."
     link="/interview-prep"
   />
+  <DashboardCard
+  icon={<FaUserCheck />}
+  title="Mock Interview"
+  description="Practice interviews and get AI feedback."
+  link="/mock-interview"
+/>
 
         </div>
 
