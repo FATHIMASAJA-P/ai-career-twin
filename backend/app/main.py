@@ -23,15 +23,26 @@ from app.api.history_routes import router as history_router
 
 from app.api import roadmap_routes
 from app.api import interview_routes
+import os
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
 
 # -------------------- CORS --------------------
 
+import os
+
 origins = [
     "http://localhost:5173",
 ]
+
+frontend_url = os.getenv("FRONTEND_URL")
+
+if frontend_url:
+    origins.append(frontend_url)
 
 app.add_middleware(
     CORSMiddleware,

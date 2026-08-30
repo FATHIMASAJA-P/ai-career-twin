@@ -1,14 +1,28 @@
 import os
 
+from dotenv import load_dotenv
 from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./career_twin.db.migrated")
+load_dotenv()
 
-engine = create_engine(
-    DATABASE_URL,
-    connect_args={"check_same_thread": False}
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "sqlite:///./career_twin.db.migrated"
 )
+
+
+# SQLite configuration
+if DATABASE_URL.startswith("sqlite"):
+    engine = create_engine(
+        DATABASE_URL,
+        connect_args={"check_same_thread": False}
+    )
+
+# PostgreSQL / Neon configuration
+else:
+    engine = create_engine(DATABASE_URL)
+
 
 SessionLocal = sessionmaker(
     autocommit=False,
@@ -25,7 +39,8 @@ def add_missing_columns():
 
     if "activities" in table_names:
         activity_columns = {
-            column["name"] for column in inspector.get_columns("activities")
+            column["name"]
+            for column in inspector.get_columns("activities")
         }
 
         if "career_roadmap" not in activity_columns:
@@ -35,7 +50,8 @@ def add_missing_columns():
 
     if "users" in table_names:
         user_columns = {
-            column["name"] for column in inspector.get_columns("users")
+            column["name"]
+            for column in inspector.get_columns("users")
         }
 
         if "reset_token" not in user_columns:
@@ -45,7 +61,7 @@ def add_missing_columns():
 
         if "reset_token_expires" not in user_columns:
             missing_columns.append(
-                "ALTER TABLE users ADD COLUMN reset_token_expires DATETIME"
+                "ALTER TABLE users ADD COLUMN reset_token_expires TIMESTAMP"
             )
 
     if missing_columns:
@@ -54,9 +70,9 @@ def add_missing_columns():
                 connection.execute(text(statement))
 
 
-# 👇 Add this function
 def get_db():
     db = SessionLocal()
+
     try:
         yield db
     finally:
